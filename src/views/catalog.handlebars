@@ -1,0 +1,14 @@
+<form id="formProduct" class="form" style="display: none">
+    <h2> Escriba el id del carrito en el cual desea agregar productos</h2>
+    <input class="controls" type="text" name="cartID" id="cartID" placeholder="Ingrese id del carrito a usar">
+    <button class="botons" type="submit" id="cartBoton">enviar</button>
+</form>
+
+<div class="container-fluid" style="display: inline">
+    <h2>Product Catalog</h2>
+    <span id="counter" style="display: block"></span>
+    <div id="catalogo" class="row"></div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/catalog.js"></script>
