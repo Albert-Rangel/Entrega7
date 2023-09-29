@@ -22,8 +22,19 @@ const HTTPserver = app.listen(port, () =>
   console.log(`Port listening on port ${HTTPserver.address().port}`)
 );
 
-//Conetando con Atlas
-mongoose.connect('mongodb+srv://albertsleyther:09NbqGe9gecOLTBy@ecommerce.6lrddnh.mongodb.net/?retryWrites=true&w=majority');
+async function connectToMongoose() {
+  try {
+    //Conetando con Atlas
+    await mongoose.connect('mongodb+srv://albertsleyther:09NbqGe9gecOLTBy@ecommerce.6lrddnh.mongodb.net/?retryWrites=true&w=majority');
+  } catch (error) {
+    console.error(`Failed to connect to Mongoose: ${error}`);
+  }
+}
+
+connectToMongoose().then(() => {
+  console.log(`Connected to Mongoose`)
+});
+
 
 //Creacion del servidor con Socketio
 const Socketserverio = new Server(HTTPserver)
@@ -65,16 +76,16 @@ Socketserverio.on('connection', async (socket) => {
   socket.on('message', async (data) => {
     await messagesModel.create(data)
     const messag = await messagesModel.find().lean()
-    Socketserverio.emit('newMessage',messag)
+    Socketserverio.emit('newMessage', messag)
   })
   socket.on('obtainCartInfo', async (cid) => {
     const cart = await cartManager.getCartById(cid)
     // const messag = await messagesModel.find().lean()
-    Socketserverio.emit('cartInforSend',cart)
+    Socketserverio.emit('cartInforSend', cart)
   })
-  socket.on('addNewProducttoCart', async ( {pid,cid}) => {
-    const newproductincart = await cartManager.addCartProducts( pid,cid)
-    Socketserverio.emit('newProductinCart',newproductincart)
+  socket.on('addNewProducttoCart', async ({ pid, cid }) => {
+    const newproductincart = await cartManager.addCartProducts(pid, cid)
+    Socketserverio.emit('newProductinCart', newproductincart)
   })
 })
 

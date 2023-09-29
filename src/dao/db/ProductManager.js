@@ -35,7 +35,6 @@ class ProductManager {
   }
   async getProducts(limit, page, sort_, query) {
     try {
-
       let key = "";
       let value = "";
       let products;

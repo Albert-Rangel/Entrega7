@@ -2,16 +2,39 @@ import Router from "express"
 import ProductManager from '../dao/fs/ProductManager.js'
 const productManager = new ProductManager('./src/dao/models/productos.json');
 const ProductRoute = Router();
+console.log("entro en el productroutes")
 
+// ProductRoute.get('/', async function (req, res) {
+
+//     const limit = parseInt(req.query.limit, 10) == 0 || req.query.limit == null? 10 : parseInt(req.query.limit, 10);
+//     const page = parseInt(req.query.page, 10) == 0  || req.query.page == null? 1 : parseInt(req.query.page, 10);
+//     const sort = req.query.sort;
+//     const query = req.query.query;
+
+//     const productObject = await productManager.getProducts();
+//     const isString = (value) => typeof value === 'string';
+
+//     if (isString(productObject)) {
+//         const arrayAnswer = ManageAnswer(productObject)
+//         return res.status(arrayAnswer[0]).send({
+//             status: arrayAnswer[0],
+//             message: arrayAnswer[1]
+//         })
+//     }
+//     return res.send(productObject.sort((a, b) => a.id - b.id).slice(0, limit));
+// });
 
 ProductRoute.get('/', async function (req, res) {
-
-    const limit = parseInt(req.query.limit, 10) == 0 || req.query.limit == null? 10 : parseInt(req.query.limit, 10);
-    const page = parseInt(req.query.page, 10) == 0  || req.query.page == null? 1 : parseInt(req.query.page, 10);
+    console.log("entro en el get")
+    const limit = parseInt(req.query.limit, 10) == 0 || req.query.limit == null ? 10 : parseInt(req.query.limit, 10);
+    const page = parseInt(req.query.page, 10) == 0 || req.query.page == null ? 1 : parseInt(req.query.page, 10);
     const sort = req.query.sort;
     const query = req.query.query;
 
-    const productObject = await productManager.getProducts();
+    const productObject = await productManager.getProducts(limit, page, sort, query);
+
+    console.log(productObject)
+
     const isString = (value) => typeof value === 'string';
 
     if (isString(productObject)) {
@@ -21,12 +44,10 @@ ProductRoute.get('/', async function (req, res) {
             message: arrayAnswer[1]
         })
     }
-
     return res.send(productObject.sort((a, b) => a.id - b.id).slice(0, limit));
 });
 
 ProductRoute.get('/:pid', async function (req, res) {
-
     const pid = parseInt(req.params.pid, 10)
     const productObject = await productManager.getProductById(pid);
     const isString = (value) => typeof value === 'string';
@@ -37,7 +58,6 @@ ProductRoute.get('/:pid', async function (req, res) {
             message: arrayAnswer[1]
         })
     }
-
     return res.send(productObject);
 });
 
@@ -60,7 +80,6 @@ ProductRoute.put('/:pid', async function (req, res) {
         status: arrayAnswer[0],
         message: arrayAnswer[1]
     })
-
 })
 
 ProductRoute.delete('/:pid', async function (req, res) {
@@ -71,7 +90,6 @@ ProductRoute.delete('/:pid', async function (req, res) {
         status: arrayAnswer[0],
         message: arrayAnswer[1]
     })
-
 })
 
 

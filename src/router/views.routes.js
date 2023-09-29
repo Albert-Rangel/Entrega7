@@ -37,7 +37,6 @@ router.get("/carts/:cid", async (req, res) => {
 
     const cid = req.params.cid
     const allProducts = await cartManager.getProductsinCartById(cid)
-
     const isString = (value) => typeof value === 'string';
     if (isString(allProducts)) {
         const arrayAnswer = ManageAnswer(allProducts)

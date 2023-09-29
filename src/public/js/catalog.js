@@ -1,4 +1,5 @@
 const socket = io()
+//Le tengo cableado el cartid
 let cid = "6513926aea1ed4bc69f73a0d"
 
 
@@ -7,7 +8,6 @@ socket.on('AllProductsCart', (data) => {
 });
 
 socket.on('newProductinCart', (data) => {
-    
     updateProductCounter(data);
 });
 const manegedivShown = () => {
@@ -23,13 +23,13 @@ function updateProductCounter(data) {
         counterSpam.style.display = "block";
         counterSpam.innerHTML = "Se agrego el producto al carrito"
         setTimeout(manegedivShown, 2000);
-       
+
     } else {
         const counterSpam = document.getElementById("counter");
         counterSpam.style.display = "block";
         counterSpam.innerHTML = "No se pudo agregar al carrito"
         setTimeout(manegedivShown, 2000);
-       
+
     }
 }
 
@@ -39,7 +39,6 @@ socket.on('cartInforSend', (messag) => {
 
 // Función para actualizar la lista de productos disponibles en el catalogo en mi página web
 function updateProductCatalogList(productList) {
-    // console.log(productList)
     const catalogDiv = document.getElementById("catalogo");
     let contenidocambiante = ""
 
@@ -106,52 +105,6 @@ const botonesCatalogo = (CatalogList) => {
             socket.emit('addNewProducttoCart', {
                 pid, cid,
             })
-            // mostrarCarrito();
         });
     }
 };
-
-// let productForm = document.getElementById("formProduct");
-// productForm.addEventListener('submit', (evt) => {
-//     evt.preventDefault()
-//     console.log("entra en el form")
-//     // productForm.style = 'display:none'
-//     let cid = productForm.elements.cartID.value;
-//     console.log(cid)
-//     socket.emit('obtainCartInfo', {
-//         cid,
-//     })
-//     productForm.reset()
-//     productForm.style = 'display:none'
-// })
-
-function ManageAnswer(answer) {
-    const arrayAnswer = []
-    if (answer) {
-        const splitString = answer.split("|");
-        switch (splitString[0]) {
-            case "E01":
-                arrayAnswer.push(400)
-                arrayAnswer.push(splitString[1])
-                return arrayAnswer
-                break;
-            case "E02":
-                arrayAnswer.push(404)
-                arrayAnswer.push(splitString[1])
-                return arrayAnswer
-                break;
-            case "SUC":
-                arrayAnswer.push(200)
-                arrayAnswer.push(splitString[1])
-                return arrayAnswer
-                break;
-            case "ERR":
-            default:
-                arrayAnswer.push(500)
-                arrayAnswer.push(splitString[1])
-                return arrayAnswer
-                break;
-        }
-    }
-}
-

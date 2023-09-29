@@ -2,7 +2,6 @@ const socket = io()
 
 socket.on('AllProductsCart', (data) => {
     updateProductCartList(data);
-    // updateCartProductsList(CartProductsList)
 });
 
 

@@ -6,7 +6,6 @@ const CartRoute = Router();
 //Obtiene un carro por su id
 CartRoute.get('/byId/:cid', async function (req, res) {
     const cid = req.params.cid
-
     const cartObject = await cartManager.getCartById(cid);
     console.log(cartObject)
     const isString = (value) => typeof value === 'string';
@@ -17,7 +16,6 @@ CartRoute.get('/byId/:cid', async function (req, res) {
             message: arrayAnswer[1]
         })
     }
-
     return res.send(cartObject);
 });
 
@@ -52,17 +50,14 @@ CartRoute.post('/', async function (req, res) {
 
 //Agrega un producto  especifico a un carro especifico
 CartRoute.post('/:cid/product/:pid', async function (req, res) {
-
     const cid = req.params.cid
     const id = req.params.pid
-
     const answer = await cartManager.addCartProducts(id, cid)
     const arrayAnswer = ManageAnswer(answer)
     return res.status(arrayAnswer[0]).send({
         status: arrayAnswer[0],
         message: arrayAnswer[1]
     })
-
 })
 
 //Elimina un producto especifico de un carro especifico
@@ -75,8 +70,8 @@ CartRoute.delete('/:cid/product/:pid', async function (req, res) {
         status: arrayAnswer[0],
         message: arrayAnswer[1]
     })
-
 })
+
 //Elimina un carro en especifico
 CartRoute.delete('/SpecificCart/:cid', async function (req, res) {
     const cid = req.params.cid
@@ -86,22 +81,17 @@ CartRoute.delete('/SpecificCart/:cid', async function (req, res) {
         status: arrayAnswer[0],
         message: arrayAnswer[1]
     })
-
 })
 
 //Elimina todos los productos dentro de un carro especifico
 CartRoute.delete('/:cid', async function (req, res) {
-
     const cid = req.params.cid
-   
-
     const answer = await cartManager.deleteAllCartProducts(cid)
     const arrayAnswer = ManageAnswer(answer)
     return res.status(arrayAnswer[0]).send({
         status: arrayAnswer[0],
         message: arrayAnswer[1]
     })
-
 })
 
 //Actualiza el Quantity Dde un producto especifico en un carro especifico
